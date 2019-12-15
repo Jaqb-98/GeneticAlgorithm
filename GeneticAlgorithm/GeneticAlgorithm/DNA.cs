@@ -27,9 +27,7 @@ namespace GeneticAlgorithm
 
         public DNA(int size)
         {
-            Genes = new double[size];
-            this.problem = problem;
-            
+            Genes = new double[size]; 
         }
 
         public void SetFitness(float value)
