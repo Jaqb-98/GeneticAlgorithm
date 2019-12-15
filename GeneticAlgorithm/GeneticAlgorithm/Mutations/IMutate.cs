@@ -4,7 +4,8 @@ using System.Text;
 
 namespace GeneticAlgorithm.Mutations
 {
-    interface IMutate
+    public interface IMutate
     {
+        void Mutate(DNA dna, float mutationChance);
     }
 }

@@ -4,7 +4,13 @@ using System.Text;
 
 namespace GeneticAlgorithm.Problems
 {
-    interface IProblem
+    public interface IProblem
     {
+        double[][] Data { get; set; }
+
+        int DNALength { get; set; }
+        double[] Target { get; }
+
+        void CalculateFitness(DNA[] dna, double[] target);
     }
 }

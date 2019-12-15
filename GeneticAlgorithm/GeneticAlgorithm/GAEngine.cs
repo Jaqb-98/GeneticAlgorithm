@@ -2,18 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GeneticAlgorithm.Problems;
+using GeneticAlgorithm.Mutations;
+using GeneticAlgorithm.Crossovers;
 
 namespace GeneticAlgorithm
 {
-    public class Population
+    public class GAEngine
     {
         /// <summary>
         /// Array of DNA objects
         /// </summary>
-        private DNA[] population;
+        private DNA[] Population;
 
-        private List<DNA> matingPool;
+        private List<DNA> MatingPool;
         private int Generation;
+
+
+        private IProblem Problem;
+        private IMutate Mutation;
+        private ICrossover Crossover;
 
         /// <summary>
         /// Something that we want evolve into
@@ -31,18 +39,26 @@ namespace GeneticAlgorithm
             return Generation;
         }
 
-
-        public Population(int populationSize, float mutationChance, double[][] Data, double[] target)
+        public DNA[] GetPopulation()
         {
-            population = new DNA[populationSize];
+            return Population;
+        }
+
+
+        public GAEngine(int populationSize, IMutate mutation, float mutationChance, IProblem problem, ICrossover crossover, double[][] Data, double[] target)
+        {
+            Population = new DNA[populationSize];
             this.mutationChance = mutationChance;
-            matingPool = new List<DNA>();
+            MatingPool = new List<DNA>();
             Generation = 0;
             this.target = target;
+            this.Mutation = mutation;
+            this.Problem = problem;
+            this.Crossover = crossover;
 
             for (int i = 0; i < Data.Length; i++)
             {
-                population[i] = new DNA(Data[i]);
+                Population[i] = new DNA(Data[i],problem);
             }
         }
 
@@ -51,14 +67,14 @@ namespace GeneticAlgorithm
         /// </summary>
         public void Selection()
         {
-            matingPool.Clear();
+            MatingPool.Clear();
 
-            foreach (var item in population)
+            foreach (var item in Population)
             {
                 float n = (item.GetFitness()) * 100;
                 for (int j = 0; j < (int)n; j++)
                 {
-                    matingPool.Add(item);
+                    MatingPool.Add(item);
                 }
             }
         }
@@ -68,18 +84,21 @@ namespace GeneticAlgorithm
         /// </summary>
         public void Generate()
         {
-            for (int i = 0; i < population.Length; i++)
+            for (int i = 0; i < Population.Length; i++)
             {
-                int a = random.Next(0, matingPool.Count);
-                int b = random.Next(0, matingPool.Count);
-                DNA parent1 = matingPool[a];
-                DNA parent2 = matingPool[b];
-                DNA child = parent1.Crossover(parent2);
-                child.Mutate(mutationChance);
-                this.population[i] = child;
+                int a = random.Next(0, MatingPool.Count);
+                int b = random.Next(0, MatingPool.Count);
+                DNA parent1 = MatingPool[a];
+                DNA parent2 = MatingPool[b];
+                DNA child = Crossover.Crossover(parent1,parent2,random);
+                Mutation.Mutate(child,mutationChance);
+                this.Population[i] = child;
             }
             Generation++;
         }
+
+
+       
 
 
         /// <summary>
@@ -87,10 +106,7 @@ namespace GeneticAlgorithm
         /// </summary>
         public void CalculateFitness()
         {
-            foreach (var item in population)
-            {
-                item.CalculateFitness(target);
-            }
+            Problem.CalculateFitness(Population, Problem.Target);
         }
 
 
@@ -98,9 +114,9 @@ namespace GeneticAlgorithm
         /// Returns highest fitness score in the entire population.
         /// </summary>
         /// <returns></returns>
-        public float highestFitnessInPopulation()
+        public float HighestFitnessInPopulation()
         {
-            var a = population.Select(x => x.GetFitness()).Max();
+            var a = Population.Select(x => x.GetFitness()).Max();
             return a;
         }
 
@@ -111,7 +127,7 @@ namespace GeneticAlgorithm
         /// <returns></returns>
         public string populationToString()
         {
-            var a = population.Select(x => x.Genes);
+            var a = Population.Select(x => x.Genes);
 
             string populationString = "";
 
@@ -129,8 +145,8 @@ namespace GeneticAlgorithm
         /// <returns></returns>
         public string GetBest()
         {
-            var b = population
-                             .Where(x => x.GetFitness() == population.Max(y => y.GetFitness()))
+            var b = Population
+                             .Where(x => x.GetFitness() == Population.Max(y => y.GetFitness()))
                              .Select(x => x.Genes);
             var c = b.First();
 
@@ -147,7 +163,7 @@ namespace GeneticAlgorithm
         /// <returns></returns>
         public float GetAverageFitness()
         {
-            var a = population.Select(x => x.GetFitness()).Average();
+            var a = Population.Select(x => x.GetFitness()).Average();
             return a;
 
         }

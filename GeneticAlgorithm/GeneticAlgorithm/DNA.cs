@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using GeneticAlgorithm.Problems;
 
 namespace GeneticAlgorithm
 {
@@ -15,80 +16,21 @@ namespace GeneticAlgorithm
         /// </summary>
         private float Fitness;
 
-        public DNA(double[] genesValues)
+        IProblem problem;
+
+        public DNA(double[] genesValues,IProblem problem)
         {
             Genes = genesValues;
+            this.problem = problem;
             
         }
 
         public DNA(int size)
         {
             Genes = new double[size];
+            this.problem = problem;
             
         }
-
-
-        public void CalculateFitness(double[] target)
-        {
-            int score = 0;
-            for (int i = 0; i < Genes.Length; i++)
-            {
-                if (Genes[i] == target[i])
-                {
-                    score++;
-                }
-            }
-            float fit = (float)score / Genes.Length;
-
-            SetFitness(fit);
-
-        }
-
-
-
-        /// <summary>
-        /// Creates a new DNA object using it's parents genes
-        /// </summary>
-        /// <param name="partner"></param>
-        /// <param name="random"></param>
-        /// <returns></returns>
-        public DNA Crossover(DNA partner)
-        {
-            DNA child = new DNA(Genes.Length);
-
-            int midpoint = random.Next(0,Genes.Length);
-            for (int i = 0; i < Genes.Length; i++)
-            {
-                if (i < midpoint) child.Genes[i] = partner.Genes[i];
-                else              child.Genes[i] = Genes[i];
-               
-            }
-            return child;
-        }
-
-
-        /// <summary>
-        /// Have chance to change genes in DNA object, based on mutation chance
-        /// </summary>
-        /// <param name="mutationChance"></param>
-        public void Mutate(float mutationChance)
-        {
-            for (int i = 0; i < Genes.Length; i++)
-            {
-                if (random.NextDouble() <= mutationChance)
-                {
-                    Genes[i] = random.Next(0, 10);
-                }
-            }
-
-        }
-
-
-
-
-
-
-
 
         public void SetFitness(float value)
         {
