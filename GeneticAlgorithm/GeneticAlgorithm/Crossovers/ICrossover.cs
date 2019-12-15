@@ -4,8 +4,15 @@ using System.Text;
 
 namespace GeneticAlgorithm.Crossovers
 {
-    public interface ICrossover
+    public interface ICrossover<T>
     {
-        DNA Crossover(DNA partner1, DNA partner2, Random random);
+        /// <summary>
+        /// Creates a child from parents genes
+        /// </summary>
+        /// <param name="parent1"></param>
+        /// <param name="parent2"></param>
+        /// <param name="random"></param>
+        /// <returns></returns>
+        DNA<T> Crossover(DNA<T> parent1, DNA<T> parent2, Random random);
     }
 }

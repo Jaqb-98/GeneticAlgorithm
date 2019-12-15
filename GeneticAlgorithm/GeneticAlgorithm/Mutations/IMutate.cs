@@ -4,8 +4,14 @@ using System.Text;
 
 namespace GeneticAlgorithm.Mutations
 {
-    public interface IMutate
+    public interface IMutate<T>
     {
-        void Mutate(DNA dna, float mutationChance);
+
+        /// <summary>
+        /// This method have a chance to mutate single gene in the population besed on the mutation chance parameter
+        /// </summary>
+        /// <param name="dna"></param>
+        /// <param name="mutationChance"></param>
+        void Mutate(DNA<T> dna, float mutationChance);
     }
 }

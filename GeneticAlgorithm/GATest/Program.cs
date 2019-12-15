@@ -19,12 +19,12 @@ namespace GATest
 
         static void Runner()
         {
-            IMutate mutation = new MutateBinary();
-            ICrossover crossover = new BasicCrossover();
-            IProblem problem = new ProblemNumberSequence();
+            IMutate<double> mutation = new MutateBinary();
+            ICrossover<double> crossover = new NumberCrossover();
+            IProblem<double> problem = new ProblemNumberSequence();
             float mutationChance = 0.01f;
 
-            GAEngine GAE = new GAEngine(problem.Data.Length, mutation, mutationChance, problem, crossover, problem.Data, problem.Target);
+            GAEngine<double> GAE = new GAEngine<double>(problem.Data.Length, mutation, mutationChance, problem, crossover, problem.Data, problem.Target);
 
             while(GAE.HighestFitnessInPopulation() != 1)
             {
@@ -32,15 +32,15 @@ namespace GATest
                 GAE.Selection();
                 GAE.Generate();
                 problem.CalculateFitness(GAE.GetPopulation(), problem.Target);
-                DisplayInfo(GAE);
+                DisplayInfo<double>(GAE);
             }
 
             Console.ReadKey();
         }
 
-        static void DisplayInfo(GAEngine GAE)
+        static void DisplayInfo<T>(GAEngine<T> GAE)
         {
-            Console.WriteLine("Best: {0}",          GAE.GetBest());
+            Console.WriteLine("Best: {0}",          GAE.GetBest().ToString());
             Console.WriteLine("Best fitness: {0}",  GAE.HighestFitnessInPopulation());
             Console.WriteLine("Avg fitness: {0}",   GAE.GetAverageFitness());
             Console.WriteLine("Generations: {0}",   GAE.GetGeneration());

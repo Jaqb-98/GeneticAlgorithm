@@ -8,25 +8,25 @@ using GeneticAlgorithm.Crossovers;
 
 namespace GeneticAlgorithm
 {
-    public class GAEngine
+    public class GAEngine<T>
     {
         /// <summary>
         /// Array of DNA objects
         /// </summary>
-        private DNA[] Population;
+        private DNA<T>[] Population;
 
-        private List<DNA> MatingPool;
+        private List<DNA<T>> MatingPool;
         private int Generation;
 
 
-        private IProblem Problem;
-        private IMutate Mutation;
-        private ICrossover Crossover;
+        private IProblem<T> Problem;
+        private IMutate<T> Mutation;
+        private ICrossover<T> Crossover;
 
         /// <summary>
         /// Something that we want evolve into
         /// </summary>
-        private double[] target;
+        private T[] target;
 
         /// <summary>
         /// Chance of each gene being mutated
@@ -39,17 +39,17 @@ namespace GeneticAlgorithm
             return Generation;
         }
 
-        public DNA[] GetPopulation()
+        public DNA<T>[] GetPopulation()
         {
             return Population;
         }
 
 
-        public GAEngine(int populationSize, IMutate mutation, float mutationChance, IProblem problem, ICrossover crossover, double[][] Data, double[] target)
+        public GAEngine(int populationSize, IMutate<T> mutation, float mutationChance, IProblem<T> problem, ICrossover<T> crossover, T[][] Data, T[] target)
         {
-            Population = new DNA[populationSize];
+            Population = new DNA<T>[populationSize];
             this.mutationChance = mutationChance;
-            MatingPool = new List<DNA>();
+            MatingPool = new List<DNA<T>>();
             Generation = 0;
             this.target = target;
             this.Mutation = mutation;
@@ -58,7 +58,7 @@ namespace GeneticAlgorithm
 
             for (int i = 0; i < Data.Length; i++)
             {
-                Population[i] = new DNA(Data[i],problem);
+                Population[i] = new DNA<T>(Data[i],problem);
             }
         }
 
@@ -88,9 +88,9 @@ namespace GeneticAlgorithm
             {
                 int a = random.Next(0, MatingPool.Count);
                 int b = random.Next(0, MatingPool.Count);
-                DNA parent1 = MatingPool[a];
-                DNA parent2 = MatingPool[b];
-                DNA child = Crossover.Crossover(parent1,parent2,random);
+                DNA<T> parent1 = MatingPool[a];
+                DNA<T> parent2 = MatingPool[b];
+                DNA<T> child = Crossover.Crossover(parent1,parent2,random);
                 Mutation.Mutate(child,mutationChance);
                 this.Population[i] = child;
             }
@@ -98,17 +98,7 @@ namespace GeneticAlgorithm
         }
 
 
-       
-
-
-        /// <summary>
-        /// Calculates fitness score for everything in population.
-        /// </summary>
-        public void CalculateFitness()
-        {
-            Problem.CalculateFitness(Population, Problem.Target);
-        }
-
+     
 
         /// <summary>
         /// Returns highest fitness score in the entire population.

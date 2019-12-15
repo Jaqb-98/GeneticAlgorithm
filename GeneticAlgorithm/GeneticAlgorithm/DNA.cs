@@ -4,10 +4,10 @@ using GeneticAlgorithm.Problems;
 
 namespace GeneticAlgorithm
 {
-    public class DNA
+    public class DNA<T>
     {
        
-        public double[] Genes;
+        public T[] Genes;
 
         private static Random random = new Random();
 
@@ -16,9 +16,9 @@ namespace GeneticAlgorithm
         /// </summary>
         private float Fitness;
 
-        IProblem problem;
+        IProblem<T> problem;
 
-        public DNA(double[] genesValues,IProblem problem)
+        public DNA(T[] genesValues,IProblem<T> problem)
         {
             Genes = genesValues;
             this.problem = problem;
@@ -27,7 +27,7 @@ namespace GeneticAlgorithm
 
         public DNA(int size)
         {
-            Genes = new double[size]; 
+            Genes = new T[size]; 
         }
 
         public void SetFitness(float value)

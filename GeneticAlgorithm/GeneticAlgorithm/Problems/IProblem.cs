@@ -4,13 +4,19 @@ using System.Text;
 
 namespace GeneticAlgorithm.Problems
 {
-    public interface IProblem
+    public interface IProblem<T>
     {
-        double[][] Data { get; set; }
+        T[][] Data { get; set; }
 
         int DNALength { get; set; }
-        double[] Target { get; }
+        T[] Target { get; }
 
-        void CalculateFitness(DNA[] dna, double[] target);
+
+        /// <summary>
+        /// Calculates fitness score for every member of the population
+        /// </summary>
+        /// <param name="population"></param>
+        /// <param name="target"></param>
+        void CalculateFitness(DNA<T>[] population, T[] target);
     }
 }

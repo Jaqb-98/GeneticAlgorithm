@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GeneticAlgorithm.Problems
 {
-    public class ProblemNumberSequence : IProblem
+    public class ProblemNumberSequence : IProblem<double>
     {
         public double[][] Data { get; set; }
 
@@ -19,7 +19,9 @@ namespace GeneticAlgorithm.Problems
             Target = TargetToArray("1 1 0 1 1 1 0 1 1 1 1 0 0 0 0 1 0 0 0 0");
         }
 
-        public void CalculateFitness(DNA[] population, double[] target)
+
+    
+        public void CalculateFitness(DNA<double>[] population, double[] target)
         {
             for (int i = 0; i < population.Length; i++)
             {
