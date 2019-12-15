@@ -1,0 +1,8 @@
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GeneticAlgorithm\bin\Debug\netstandard2.0\GeneticAlgorithm.deps.json
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GeneticAlgorithm\bin\Debug\netstandard2.0\GeneticAlgorithm.dll
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GeneticAlgorithm\bin\Debug\netstandard2.0\GeneticAlgorithm.pdb
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GeneticAlgorithm\obj\Debug\netstandard2.0\GeneticAlgorithm.csprojAssemblyReference.cache
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GeneticAlgorithm\obj\Debug\netstandard2.0\GeneticAlgorithm.AssemblyInfoInputs.cache
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GeneticAlgorithm\obj\Debug\netstandard2.0\GeneticAlgorithm.AssemblyInfo.cs
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GeneticAlgorithm\obj\Debug\netstandard2.0\GeneticAlgorithm.dll
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GeneticAlgorithm\obj\Debug\netstandard2.0\GeneticAlgorithm.pdb

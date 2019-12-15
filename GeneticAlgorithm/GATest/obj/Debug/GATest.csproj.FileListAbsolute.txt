@@ -1,0 +1,9 @@
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\bin\Debug\GATest.exe.config
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\bin\Debug\GATest.exe
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\bin\Debug\GATest.pdb
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\obj\Debug\GATest.csprojAssemblyReference.cache
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\obj\Debug\GATest.exe
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\obj\Debug\GATest.pdb
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\bin\Debug\GeneticAlgorithm.dll
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\bin\Debug\GeneticAlgorithm.pdb
+E:\Visual Studio workspace\CHC\GeneticAlgorithm\GATest\obj\Debug\GATest.csproj.CopyComplete
