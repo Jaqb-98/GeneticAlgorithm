@@ -18,5 +18,8 @@ namespace GeneticAlgorithm.Problems
         /// <param name="population"></param>
         /// <param name="target"></param>
         void CalculateFitness(DNA<T>[] population, T[] target);
+        void CalculateFitness(List<DNA<T>> parallelGeneratedChildren, T[] target);
+
+        string DisplayTarget();
     }
 }

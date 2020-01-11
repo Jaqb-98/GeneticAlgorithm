@@ -13,6 +13,6 @@ namespace GeneticAlgorithm.Crossovers
         /// <param name="parent2"></param>
         /// <param name="random"></param>
         /// <returns></returns>
-        DNA<T> Crossover(DNA<T> parent1, DNA<T> parent2, Random random);
+        DNA<T> Crossover(DNA<T> parent1, DNA<T> parent2, DNA<T> parent3, DNA<T> parent4, Random random);
     }
 }

@@ -12,6 +12,6 @@ namespace GeneticAlgorithm.Mutations
         /// </summary>
         /// <param name="dna"></param>
         /// <param name="mutationChance"></param>
-        void Mutate(DNA<T> dna, float mutationChance);
+        void Mutate(DNA<T> dna, float mutationChance, Random random);
     }
 }

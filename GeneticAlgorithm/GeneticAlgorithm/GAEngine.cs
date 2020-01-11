@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Diagnostics;
 using GeneticAlgorithm.Problems;
 using GeneticAlgorithm.Mutations;
 using GeneticAlgorithm.Crossovers;
@@ -10,6 +13,7 @@ namespace GeneticAlgorithm
 {
     public class GAEngine<T>
     {
+
         /// <summary>
         /// Array of DNA objects
         /// </summary>
@@ -18,8 +22,10 @@ namespace GeneticAlgorithm
         private List<DNA<T>> MatingPool;
         private int Generation;
 
+        private static Random random = new Random();
 
-        private IProblem<T> Problem;
+
+        public IProblem<T> Problem;
         private IMutate<T> Mutation;
         private ICrossover<T> Crossover;
 
@@ -32,7 +38,8 @@ namespace GeneticAlgorithm
         /// Chance of each gene being mutated
         /// </summary>
         private float mutationChance;
-        private static Random random = new Random();
+
+
 
         public int GetGeneration()
         {
@@ -43,7 +50,6 @@ namespace GeneticAlgorithm
         {
             return Population;
         }
-
 
         public GAEngine(int populationSize, IMutate<T> mutation, float mutationChance, IProblem<T> problem, ICrossover<T> crossover, T[][] Data, T[] target)
         {
@@ -58,7 +64,7 @@ namespace GeneticAlgorithm
 
             for (int i = 0; i < Data.Length; i++)
             {
-                Population[i] = new DNA<T>(Data[i],problem);
+                Population[i] = new DNA<T>(Data[i], problem);
             }
         }
 
@@ -77,6 +83,7 @@ namespace GeneticAlgorithm
                     MatingPool.Add(item);
                 }
             }
+
         }
 
         /// <summary>
@@ -84,21 +91,63 @@ namespace GeneticAlgorithm
         /// </summary>
         public void Generate()
         {
-            for (int i = 0; i < Population.Length; i++)
+
+            var newPopulation = new List<DNA<T>>(Population.Length);
+
+            Parallel.For(0, Population.Length, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
+                i =>
+                {
+                    Random random = ThreadLocalRandom.NewRandom();
+
+                    List<DNA<T>> parallelGeneratedChildren = new List<DNA<T>>(10);
+
+
+                    for (int j = 0; j < 10; j++)
+                    {
+                        int a = random.Next(0, MatingPool.Count);
+                        int b = random.Next(0, MatingPool.Count);
+                        int c = random.Next(0, MatingPool.Count);
+                        int d = random.Next(0, MatingPool.Count);
+
+
+                        DNA<T> parent1 = MatingPool[a];
+                        DNA<T> parent2 = MatingPool[b];
+                        DNA<T> parent3 = MatingPool[c];
+                        DNA<T> parent4 = MatingPool[d];
+
+                        DNA<T> child = Crossover.Crossover(parent1, parent2, parent3, parent4, random);
+                        Mutation.Mutate(child, mutationChance, random);
+                        parallelGeneratedChildren.Add(child);
+                    }
+
+                    Problem.CalculateFitness(parallelGeneratedChildren, Problem.Target);
+
+                    var q = parallelGeneratedChildren.Max(x => x.GetFitness());
+                    var q1 = parallelGeneratedChildren.Where(x => x.GetFitness() == q).Take(1);
+                    float t = GetLowestFitness();
+                    if (q > t)
+                        newPopulation.Add(q1.FirstOrDefault());
+
+                });
+
+
+            for (int i = 0; i < newPopulation.Count; i++)
             {
-                int a = random.Next(0, MatingPool.Count);
-                int b = random.Next(0, MatingPool.Count);
-                DNA<T> parent1 = MatingPool[a];
-                DNA<T> parent2 = MatingPool[b];
-                DNA<T> child = Crossover.Crossover(parent1,parent2,random);
-                Mutation.Mutate(child,mutationChance);
-                this.Population[i] = child;
+                Population[i] = newPopulation[i];
             }
+            newPopulation.Clear();
             Generation++;
+
+
         }
 
 
-     
+        public float GetLowestFitness()
+        {
+            var a = Population.Min(x => x.GetFitness());
+            return a;
+        }
+
 
         /// <summary>
         /// Returns highest fitness score in the entire population.

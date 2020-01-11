@@ -14,7 +14,7 @@ namespace GeneticAlgorithm.Problems
         private static Random random = new Random();
         public ProblemCharacterSequence()
         {
-            Target = TargetToString("Random sentence");
+            Target = SetTarget(1000);
             Data = RandomStringsGenerator(300,Target.Length);
             DNALength = Data[1].Length;
             
@@ -29,6 +29,18 @@ namespace GeneticAlgorithm.Problems
                 s[i] = v[i];
             }
             return s;
+        }
+
+        static char[] SetTarget(int targetLength)
+        {
+            char[] target = new char[targetLength];
+
+            for (int i = 0; i < targetLength; i++)
+            {
+                target[i]= (char)random.Next(32, 126);
+            }
+
+            return target;
         }
 
         public void CalculateFitness(DNA<char>[] population, char[] target)
@@ -51,6 +63,26 @@ namespace GeneticAlgorithm.Problems
           
         }
 
+        public void CalculateFitness(List<DNA<char>> population, char[] target)
+        {
+            for (int i = 0; i < population.Count; i++)
+            {
+                int score = 0;
+                for (int j = 0; j < DNALength; j++)
+                {
+                    if (population[i].Genes[j] == target[j])
+                    {
+                        score++;
+                    }
+                }
+                float fitness = (float)score / DNALength;
+
+                population[i].SetFitness(fitness);
+            }
+
+
+        }
+
 
         public char[][] RandomStringsGenerator(int numberOfStrings, int numberOfChars)
         {
@@ -64,6 +96,16 @@ namespace GeneticAlgorithm.Problems
                 }
             }
             return allStrings;
+        }
+
+        public string DisplayTarget()
+        {
+            string s = string.Empty;
+            for (int i = 0; i < Target.Length; i++)
+            {
+                s += $"{Target[i]}";
+            }
+            return s;
         }
     }
 }

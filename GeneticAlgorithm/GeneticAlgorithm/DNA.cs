@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using GeneticAlgorithm.Problems;
 
 namespace GeneticAlgorithm
@@ -9,7 +10,7 @@ namespace GeneticAlgorithm
        
         public T[] Genes;
 
-        private static Random random = new Random();
+        //private static Random random = new Random();
 
         /// <summary>
         /// Score that determines chance of reproduction
@@ -44,6 +45,8 @@ namespace GeneticAlgorithm
         {
             return Fitness;
         }
+
+       
 
 
     }

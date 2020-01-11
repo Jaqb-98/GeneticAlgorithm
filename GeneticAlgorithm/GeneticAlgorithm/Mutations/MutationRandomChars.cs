@@ -7,15 +7,15 @@ namespace GeneticAlgorithm.Mutations
 {
     public class MutationRandomChars : IMutate<char>
     {
-        private static Random random = new Random();
-        public void Mutate(DNA<char> dna, float mutationChance)
+
+        public void Mutate(DNA<char> dna, float mutationChance,Random random)
         {
             for (int i = 0; i < dna.Genes.Length; i++)
             {
-                
+
                 if (random.NextDouble() <= mutationChance)
                 {
-                    dna.Genes[i] =(char) random.Next(32, 126);
+                    dna.Genes[i] = (char)random.Next(32, 126);
                 }
             }
         }
